@@ -6,19 +6,26 @@ using namespace std;
 // Implement a Stack
 class stackQueue {
 private:
-    queue<int> q1, q2;
+    newQueue<int> q1, q2;
 public:
-    void enqueue(int x) {
-        q2.push(x);
-        while (!q1.empty()) {
-            q2.push(q1.front());
-            q1.pop();
+    void push(int x) {
+        if (q1.IsEmpty()) {
+            q1.enqueue(x);
         }
-        swap(q1, q2);
+        else {
+            while (!(q1.IsEmpty())) {
+                q2.enqueue(q1.dequeue());
+            }
+            q1.enqueue(x);
+            while (!(q2.IsEmpty()))
+            {
+                q1.enqueue(q2.dequeue());
+            }
+        }
     }
 
-    void dequeue() {
-        q1.pop();
+    void Pop() {
+        q1.dequeue();
     }
 
     int top() {
@@ -26,8 +33,9 @@ public:
     }
 
     bool empty() {
-        return q1.empty();
+        return q1.IsEmpty();
     }
+
 };
 
 // Sorting a Queue
@@ -45,34 +53,9 @@ void sortQueue(newQueue<int>& q) {
 
 
 int main() {
-    Stack s;
-    s.push(1);
-    s.push(2);
-    s.push(3);
-    s.push(4);
+    stackQueue s;
+    s.push(5);
+    cout << s.top() << endl;
 
-    cout << s.top() << endl; // Output: 4
-    s.pop();
-    cout << s.top() << endl; // Output: 3
-    s.pop();
-    cout << s.top() << endl; // Output: 2
-    s.pop();
-    cout << s.top() << endl; // Output: 1
-    s.pop();
-    cout << s.empty() << endl; // Output: 1 (true)
-
-    newQueue<int> q;
-    q.enqueue(5);
-    q.enqueue(2);
-    q.enqueue(8);
-    q.enqueue(1);
-    q.enqueue(4);
-
-    sortQueue(q);
-
-    while (!q.IsEmpty()) {
-        cout << q.front() << " ";
-        q.dequeue();
-    }
 	return 0;
 }
