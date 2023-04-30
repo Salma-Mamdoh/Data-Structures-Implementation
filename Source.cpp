@@ -60,15 +60,4 @@ int main() {
 }
 
 
-int main() {
-    stackQueue s;
-    newQueue<int> q;
-    q.enqueue(5);
-    q.enqueue(6);
-    q.enqueue(10);
-    q.enqueue(12);
-    s.push(5);
-    cout << s.top();
 
-	return 0;
-}
