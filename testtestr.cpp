@@ -1,12 +1,13 @@
-// testtestr.cpp : 
 #include <bits/stdc++.h>
 using namespace std;
+
 template<typename elementType>
 struct node
 {
     elementType info;
     node<elementType>* next;
 };
+
 template<typename elementType>
 class singleLinkedList
 {
@@ -15,30 +16,29 @@ private:
     int size;
 public:
     singleLinkedList();
-    node<elementType>* gethead();
     void insertAtHead(elementType element);
     void insertAtTail(elementType element);
     void insertAt(elementType element, int index);
     void removeAtHead();
-    void removeAt(int index);
-    void clear();
-    void print();
-    int linkedListSize();
-    bool isEmpty();
-    bool isExist(elementType element);
-    bool isItemAtEqual(elementType element, int index);
     void  removeAtTail();
+    void removeAt(int index);
     elementType retrieveAt(int index);
     void replaceAt(elementType newElement, int index);
+    bool isExist(elementType element);
+    bool isItemAtEqual(elementType element, int index);
+    void swap(int firstItemIdx, int secondItemIdx);
+    bool isEmpty();
+    int linkedListSize();
+    void clear();
+    void print();
     void combineNodesBetweenZeros();
-    void swapl(int firstItemIdx, int secondItemIdx);
+
+    node<elementType>* gethead();
     void push(node<elementType>** head_ref, elementType new_data);
-    void addinone(node<elementType>* arr[], int n);
+    void addToMerge(node<elementType>* arr[], int n);
     node<elementType>* merge(node<elementType>* firstNode, node<elementType>* secondNode);
-    node<elementType>* Mergesort(node<elementType>* head);
+    node<elementType>* mergeSort(node<elementType>* head);
     node<elementType>* middle(node<elementType>* head);
-
-
 };
 template<typename elementType>
 singleLinkedList<elementType>::singleLinkedList()
@@ -307,17 +307,17 @@ void singleLinkedList<elementType>::combineNodesBetweenZeros() {
 }
 
 template<typename elementType>
-void singleLinkedList<elementType>::swapl(int firstItemIdx, int secondItemIdx) {
-    if (firstItemIdx == secondItemIdx) return;
+void singleLinkedList<elementType>::swap(int firstIndex, int secondIndex) {
+    if (firstIndex == secondIndex) return;
     node<elementType>* prevFirst = NULL;
     node<elementType>* currFirst = head;
-    while (currFirst && currFirst->info != firstItemIdx) {
+    while (currFirst && currFirst->info != firstIndex) {
         prevFirst = currFirst;
         currFirst = currFirst->next;
     }
     node<elementType>* prevSecond = NULL;
     node<elementType>* currSecond = head;
-    while (currSecond && currSecond->info != secondItemIdx) {
+    while (currSecond && currSecond->info != secondIndex) {
         prevSecond = currSecond;
         currSecond = currSecond->next;
     }
@@ -334,15 +334,15 @@ void singleLinkedList<elementType>::swapl(int firstItemIdx, int secondItemIdx) {
 template<typename elementType>
 void singleLinkedList<elementType>::push(node<elementType>** head_ref, elementType new_data)
 {
-   
-    node<elementType>* new_node = new node<elementType>();
-    new_node->info = new_data;
-    new_node->next = (*head_ref);
-    (*head_ref) = new_node;
+
+    node<elementType>* newNode = new node<elementType>();
+    newNode->info = new_data;
+    newNode->next = (*head_ref);
+    (*head_ref) = newNode;
 }
 
 template<typename elementType>
-void singleLinkedList<elementType>::addinone(node<elementType>* arr[], int n)
+void singleLinkedList<elementType>::addToMerge(node<elementType>* arr[], int n)
 {
     node<elementType>* a = NULL;
     for (int i = 0; i < n; i++) {
@@ -351,31 +351,25 @@ void singleLinkedList<elementType>::addinone(node<elementType>* arr[], int n)
             arr[i] = arr[i]->next;
         }
     }
-    node<elementType>* curr = Mergesort(a);;
+    node<elementType>* curr = mergeSort(a);
     while (curr != NULL) {
         cout << curr->info << " ";
         curr = curr->next;
     }
-    
+
 }
 template<typename elementType>
 node<elementType>* singleLinkedList<elementType>::merge(node<elementType>* firstNode,node<elementType>* secondNode)
 {
     node<elementType>* merged = new node<elementType>;
     node<elementType>* temp = new node<elementType>;
-
-    // merged is equal to temp so in the end we have the top
-    // Node.
     merged = temp;
-
-    // while either firstNode or secondNode becomes NULL
     while (firstNode != NULL && secondNode != NULL) {
 
         if (firstNode->info <= secondNode->info) {
             temp->next = firstNode;
             firstNode = firstNode->next;
         }
-
         else {
             temp->next = secondNode;
             secondNode = secondNode->next;
@@ -383,8 +377,6 @@ node<elementType>* singleLinkedList<elementType>::merge(node<elementType>* first
         temp = temp->next;
     }
 
-    // any remaining Node in firstNode or secondNode gets
-    // inserted in the temp List
     while (firstNode != NULL) {
         temp->next = firstNode;
         firstNode = firstNode->next;
@@ -396,11 +388,9 @@ node<elementType>* singleLinkedList<elementType>::merge(node<elementType>* first
         secondNode = secondNode->next;
         temp = temp->next;
     }
-    // return the head of the sorted list
     return merged->next;
 }
 
-// function to calculate the middle Element
 template<typename elementType>
 node<elementType>* singleLinkedList<elementType>::middle(node<elementType>* head)
 {
@@ -415,7 +405,7 @@ node<elementType>* singleLinkedList<elementType>::middle(node<elementType>* head
 }
 
 template<typename elementType>
-node<elementType>* singleLinkedList<elementType>::Mergesort(node<elementType>* head)
+node<elementType>* singleLinkedList<elementType>::mergeSort(node<elementType>* head)
 {
     if (head->next == NULL) {
         return head;
@@ -426,9 +416,8 @@ node<elementType>* singleLinkedList<elementType>::Mergesort(node<elementType>* h
     mid = middle(head);
     head2 = mid->next;
     mid->next = NULL;
-    // recursive call to sort() hence diving our problem,
-    // and then merging the solution
-    node<elementType>* finalhead = merge(Mergesort(head),Mergesort(head2));
+
+    node<elementType>* finalhead = merge(mergeSort(head),mergeSort(head2));
     return finalhead;
 }
 
@@ -437,13 +426,14 @@ node<elementType>* singleLinkedList<elementType>::Mergesort(node<elementType>* h
 
 int main()
 {
+    cout << "-------------------- Single Linked List -----------------------" << endl;
     singleLinkedList<int>sll, sll2, sll3, sll4, sll5, sll6;
     sll.insertAtHead(10);
     sll.insertAtTail(20);
     sll.insertAtTail(90);
     sll.insertAt(30, 2);
     sll.print();
-    sll.swapl(1, 2);
+    sll.swap(1, 2);
     sll.print();
     sll.replaceAt(80, 1);
     cout << sll.retrieveAt(1) << endl;
@@ -459,8 +449,9 @@ int main()
     sll.print();
     cout << sll.linkedListSize() << endl;
     sll.clear();
-    cout << "-------------------------------------------" << endl;
-    sll2.insertAtTail(0);//[0, 3, 1, 0, 4, 5, 2, 0]
+
+    cout << "------------------- Combine Nodes Between Zeros----------------------" << endl;
+    sll2.insertAtTail(0);          //[0, 3, 1, 0, 4, 5, 2, 0]
     sll2.insertAtTail(3);
     sll2.insertAtTail(1);
     sll2.insertAtTail(0);
@@ -471,7 +462,8 @@ int main()
     sll2.print();
     sll2.combineNodesBetweenZeros();
     sll2.print();
-    cout << "-------------------------------------------" << endl;
+
+    cout << "--------------------Merge K Sorted Linked Lists-----------------------" << endl;
     sll3.insertAtHead(1);
     sll3.insertAtTail(4);
     sll3.insertAtTail(5);
@@ -481,8 +473,7 @@ int main()
     sll5.insertAtHead(2);
     sll5.insertAtTail(6);
     node<int>* arr[3] = { sll3.gethead(),sll4.gethead(),sll5.gethead() };
-    sll6.addinone(arr, 3);
-    //node<int>head1=new node<int>();
-    //node<int>head = mergeKLists(node<int>sll3,3-1);
+    sll6.addToMerge(arr, 3);
+
     return 0;
 }
