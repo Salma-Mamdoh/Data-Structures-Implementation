@@ -1,8 +1,7 @@
 #include<bits/stdc++.h>
+using namespace std;
 #include"Queue.h"
 #include"Stack.h"
-using namespace std;
-
 // Implement a Stack
 class stackQueue {
 private:
@@ -56,6 +55,20 @@ int main() {
     stackQueue s;
     s.push(5);
     cout << s.top() << endl;
+
+    return 0;
+}
+
+
+int main() {
+    stackQueue s;
+    newQueue<int> q;
+    q.enqueue(5);
+    q.enqueue(6);
+    q.enqueue(10);
+    q.enqueue(12);
+    s.push(5);
+    cout << s.top();
 
 	return 0;
 }
