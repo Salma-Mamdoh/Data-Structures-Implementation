@@ -1,22 +1,26 @@
-#include <iostream>
+#pragma once
+#include<bits/stdc++.h>
 using namespace std;
+// guard
+#ifndef ARRAYBASEDLIST_H
+#define ARRAYBASEDLIST_H
 
 template<class elementType>
 class  arrayBasedList
 {
 private:
-    int *arr;
+    int* arr;
     int arrSize;
     int maxSize;
 public:
     arrayBasedList(int size = 5);
     ~arrayBasedList();
     void insert(elementType item);
-    void insertAt(elementType element,int index);
-    elementType retrieveAt (int index);
+    void insertAt(elementType element, int index);
+    elementType retrieveAt(int index);
     void removeAt(int index);
-    void replaceAt(elementType newElement,int index);
-    bool isItemAtEqual (elementType element, int index);
+    void replaceAt(elementType newElement, int index);
+    bool isItemAtEqual(elementType element, int index);
     bool isEmpty();
     bool isFull();
     int listSize();
@@ -24,11 +28,11 @@ public:
     void clear();
     void print();
 };
-
+#endif
 template<class elementType>
 arrayBasedList< elementType>::arrayBasedList(int size)
 {
-    if(size <= 0)
+    if (size <= 0)
     {
         cout << " Wrong Size, will initialize with 5 " << endl;
         maxSize = 5;
@@ -37,34 +41,34 @@ arrayBasedList< elementType>::arrayBasedList(int size)
         maxSize = size;
 
     arrSize = 0;
-    arr = new elementType [maxSize];
+    arr = new elementType[maxSize];
 }
 
 template<class elementType>
 arrayBasedList< elementType>::~arrayBasedList()
 {
-    delete [] arr;
+    delete[] arr;
 }
 
 template<class elementType>
 void arrayBasedList< elementType>::insert(elementType item)
 {
-    if(isFull())
-        cout<<" The List is Full " << endl;
+    if (isFull())
+        cout << " The List is Full " << endl;
     else
         arr[arrSize++] = item;
 }
 
 template<class elementType>
-void arrayBasedList< elementType>::insertAt(elementType element,int index)
+void arrayBasedList< elementType>::insertAt(elementType element, int index)
 {
-    if(isFull())
-        cout<<" The List is Full " << endl;
-    else if(index < 0 || index > arrSize)
+    if (isFull())
+        cout << " The List is Full " << endl;
+    else if (index < 0 || index > arrSize)
         cout << "Out of Range " << endl;
     else
     {
-        for(int i = arrSize; i > index; i--)
+        for (int i = arrSize; i > index; i--)
             arr[i] = arr[i - 1];	//shift right
 
         arr[index] = element;
@@ -73,7 +77,7 @@ void arrayBasedList< elementType>::insertAt(elementType element,int index)
 }
 
 template<class elementType>
-elementType arrayBasedList< elementType>:: retrieveAt(int index) {
+elementType arrayBasedList< elementType>::retrieveAt(int index) {
     if (index < 0 || index >= arrSize) {
         cout << "Index Out of Range " << endl;
     }
@@ -83,28 +87,28 @@ elementType arrayBasedList< elementType>:: retrieveAt(int index) {
 template<class elementType>
 void arrayBasedList< elementType>::removeAt(int index)
 {
-    if(index < 0 || index >= arrSize)
-        cout<<"The index is out of range"<<endl;
+    if (index < 0 || index >= arrSize)
+        cout << "The index is out of range" << endl;
     else
     {
-        for(int i = index; i < arrSize - 1; i++)
-            arr[i] = arr[i+1];
+        for (int i = index; i < arrSize - 1; i++)
+            arr[i] = arr[i + 1];
 
         arrSize--;
     }
 }
 
 template<class elementType>
-void arrayBasedList< elementType>::replaceAt(elementType newElement,int index)
+void arrayBasedList< elementType>::replaceAt(elementType newElement, int index)
 {
-    if(index< 0 || index >= arrSize)
+    if (index < 0 || index >= arrSize)
         cout << "Out of Range " << endl;
     else
         arr[index] = newElement;
 }
 
 template <typename elementType>
-bool arrayBasedList<elementType>::isItemAtEqual(elementType element, int index)  {
+bool arrayBasedList<elementType>::isItemAtEqual(elementType element, int index) {
     if (index < 0 || index >= arrSize) {
         return false;
     }
@@ -144,31 +148,10 @@ void arrayBasedList< elementType>::clear()
 template<class elementType>
 void arrayBasedList< elementType>::print()
 {
-    for(int i = 0; i < arrSize; i++)
-        cout<<arr[i]<<" ";
-    cout<<endl;
+    for (int i = 0; i < arrSize; i++)
+        cout << arr[i] << " ";
+    cout << endl;
 }
 
-int main()
-{
-    arrayBasedList<int> arr1(6);
-    arr1.insert(10);
-    arr1.insert(20);
-    arr1.insert(30);
-    arr1.insertAt(5,0);
-    arr1.print();
-    cout<<arr1.isItemAtEqual(20,2)<<endl;
-    cout<<arr1.isEmpty()<<endl;
-    cout<<arr1.maxListSize()<<endl;
-    cout<<arr1.isFull()<<endl;
-    cout<<arr1.listSize()<<endl;
-    arr1.removeAt(1);
-    arr1.print();
-    cout<<arr1.listSize()<<endl;
-    arr1.replaceAt(8,0);
-    arr1.print();
-    cout<<arr1.retrieveAt(1)<<endl;
-    arr1.clear();
-    cout<<arr1.listSize()<<endl;
-    return 0;
-}
+
+
