@@ -1,6 +1,6 @@
 # Data Structures Implementation
 
-<p>This project contains implementations of various data structures in Python, including:</p>
+<p>This project contains implementations of various data structures in C++, including:</p>
 
 <ul>
   <li>Array-Based List</li>
